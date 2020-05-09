@@ -48,12 +48,32 @@ class Calculator {
       case '÷':
         computation = prev / current
         break
+      case '%':
+        computation = prev % current
+        break
+      case '^':
+        computation = Math.pow(prev,current)
+        break
       default:
         return
     }
     this.currentOperand = computation
     this.operation = undefined
     this.previousOperand = ''
+  }
+
+  conversion(){
+    
+
+
+
+
+    
+
+
+
+
+
   }
 
   getDisplayNumber(number) {
@@ -93,6 +113,7 @@ const deleteButton = document.querySelector('[data-delete]')
 const allClearButton = document.querySelector('[data-all-clear]')
 const previousOperandTextElement = document.querySelector('[data-previous-operand]')
 const currentOperandTextElement = document.querySelector('[data-current-operand]')
+const conversionButton = document.querySelectorAll('[data-convert]')
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
 
@@ -122,5 +143,10 @@ allClearButton.addEventListener('click', button => {
 
 deleteButton.addEventListener('click', button => {
   calculator.delete()
+  calculator.updateDisplay()
+})
+
+conversionButton.addEventListener('click', button =>{
+  calculator.conversion()
   calculator.updateDisplay()
 })
