@@ -54,6 +54,9 @@ class Calculator {
       case '^':
         computation = Math.pow(prev,current)
         break
+      case 'base':
+        computation = Math.log(prev)/Math.log(current)
+        break
       default:
         return
     }
@@ -62,18 +65,19 @@ class Calculator {
     this.previousOperand = ''
   }
 
-  conversion(){
-    
-
-
-
-
-    
-
-
-
-
-
+  conversion(converttype) {
+    if (isNaN(this.currentOperand)) return
+    const current = parseFloat(this.currentOperand)
+    switch(converttype) {
+      case 'binary':
+        this.currentOperand = current.toString(2);
+        break
+      case 'hex':
+        this.currentOperand = current.toString(16);
+        break
+      default:
+        return
+    }
   }
 
   getDisplayNumber(number) {
@@ -108,12 +112,13 @@ class Calculator {
 
 const numberButtons = document.querySelectorAll('[data-number]')
 const operationButtons = document.querySelectorAll('[data-operation]')
+const conversionButtons = document.querySelectorAll('[data-convert]')
 const equalsButton = document.querySelector('[data-equals]')
 const deleteButton = document.querySelector('[data-delete]')
 const allClearButton = document.querySelector('[data-all-clear]')
 const previousOperandTextElement = document.querySelector('[data-previous-operand]')
 const currentOperandTextElement = document.querySelector('[data-current-operand]')
-const conversionButton = document.querySelectorAll('[data-convert]')
+
 
 const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement)
 
@@ -146,7 +151,9 @@ deleteButton.addEventListener('click', button => {
   calculator.updateDisplay()
 })
 
-conversionButton.addEventListener('click', button =>{
-  calculator.conversion()
-  calculator.updateDisplay()
+conversionButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    calculator.conversion(button.innerText)
+    calculator.updateDisplay()
+  })
 })
